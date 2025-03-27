@@ -5,8 +5,8 @@ from launch_ros.descriptions import ComposableNode
 def generate_launch_description():
     container = ComposableNodeContainer(
         name="my_container", 
-        package="misora_gui",
-        executable="",
+        package="rclcpp_components",
+        executable="component_container",#マルチスレッドの場合component_container_mt,シングルはcomponent_container
         namespace="",
         composable_node_descriptions=[
             ComposableNode(
@@ -15,23 +15,29 @@ def generate_launch_description():
                 name="misora_gui",
                 extra_arguments=[{"use_intra_process_comms": True}],
             ),
+            ComposableNode(
+                package="misora_gui",
+                plugin="component_operator_gui_sub::DistributeImage_sub",
+                name="pseudo_digital_twin",
+                extra_arguments=[{"use_intra_process_comms": True}],
+            )
         ],
         output="screen",
     )
     
-    load_composable_nodes = LoadComposableNodes(
-        target_container="my_container",
-        composable_node_descriptions=[
-            ComposableNode(
-                package="listener",
-                plugin="Listener",
-                name="listener",
-                extra_arguments=[{"use_intra_process_comms": True}],
-            ),
-        ],
-    )
+    # load_composable_nodes = LoadComposableNodes(
+    #     target_container="my_container",
+    #     composable_node_descriptions=[
+    #         ComposableNode(
+    #             package="listener",
+    #             plugin="Listener",
+    #             name="listener",
+    #             extra_arguments=[{"use_intra_process_comms": True}],
+    #         ),
+    #     ],
+    # )
     
     return LaunchDescription([
         container, 
-        load_composable_nodes
+        # load_composable_nodes
     ])
