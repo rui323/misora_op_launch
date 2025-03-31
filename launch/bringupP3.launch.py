@@ -14,16 +14,19 @@ def generate_launch_description():
                 plugin="component_operator_gui::DistributeImage",
                 name="misora_gui",
                 extra_arguments=[{"use_intra_process_comms": True}],
+                parameters=[{"my_parameter": "P3"}]
             ),
             ComposableNode(
                 package="misora_gui",
                 plugin="component_operator_gui_sub::DistributeImage_sub",
-                name="pseudo_digital_twin",
+                name="pseudo_dt_client",
                 extra_arguments=[{"use_intra_process_comms": True}],
+                parameters=[{"sub_parameter": "P3"}]
             )
         ],
         output="screen",
     )
+    # remapping で"0 | 1"を"bulb_operate" "OP | CL"を"bulb_report"
     
     # load_composable_nodes = LoadComposableNodes(
     #     target_container="my_container",

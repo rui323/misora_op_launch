@@ -5,16 +5,18 @@ def generate_launch_description():
     ld = LaunchDescription()
     node1 = Node(
         package='misora_gui',
-        executable='misora_gui',
+        executable='misora_gui_node',
         name='gui_operate',
-        remappings=[],
-        parameters=[{"my_parameter": "P3"}]  # ミッション
+        remappings=[
+            ('/bulb', '/bulb_operate'),
+        ],
+        parameters=[{"my_parameter": "P1"}]  # ミッション
     )
     node2 = Node(
         package='misora_gui',
-        executable='misora_gui_sub',
+        executable='misora_gui_sub_node',
         name='pseudo_digital_twin',
-        parameters=[{"sub_parameter": "P3"}]
+        parameters=[{"sub_parameter": "P1"}]
     )
     ld.add_action(node1)
     ld.add_action(node2)
